@@ -31,7 +31,44 @@ main.ipynb包含所有任务的源码和详细说明。to_csv.py是数据集划�
 |O|代表不属于标注的范围|
 
 下图是一个标注的例子：
-![实体识别的标注举例](https://ai-studio-static-online.cdn.bcebos.com/4966caab43894ab8ad1a7a85bdaff87a8437b4bf20b74ab0ad379c7cdcf1a248)
+![实体识别的标注举例](label_example.png)
 
 ### 情感分类
 根据用户评论的文本内容，判断其情感极性，并对其情感进行分类。<br>本次实验任务中，需要将用户的评论划分为正面（1）、负面（0）和中立（2）三种类型。
+
+## 数据集文件介绍
+包含两个文件：用于训练和验证的train.csv以及用于测试提交并测评的test.csv
+
+### 数据格式
+#### train.csv
+|字段名|字段说明|
+|:-----:|:-----:|
+|text|评论原始文本 |
+|BIO_anno|BIO格式的实体标注|
+|class|情感分类(1:正面,0:负面,2:中立) |
+
+#### test.csv
+|字段名|字段说明|
+|:-----:|:-----:|
+|id|文本id|
+|text|评论文本|
+
+### 特别说明
+本数据集已经对课程提供的原始数据集中部分内容进行了调整和修正，包括：
+
++ 替换评论文本中的换行符为空格
+
+    涉及的数据为：
+    |在原始数据集中的行号（标题为第1行）|text|调整后的text|
+    |:----:|:----|:----|
+    |4823|多币账户看起来多而已，实际上征信只算一条好么…只要不逾期没有什么影响<br>而且态度坚决一点 都可以直接销的 大妈行没这么墨迹|多币账户看起来多而已，实际上征信只算一条好么…只要不逾期没有什么影响 而且态度坚决一点 都可以直接销的 大妈行没这么墨迹|
+
++ 纠正token与label数目不匹配问题
+
+    涉及的数据为：
+    |在原始数据集中的行号（标题为第1行）|text|label| token数目|标签数目|调整后的label|
+    |:----:|:----|:----|:----:|:----:|:----|
+    745|楼主，解决了吗？我的跟你一样，好操心|O O O O O O O O O O O O O O O O B-COMMENTS_ADJ I-COMMENTS_ADJ O |18|19|O O O O O O O O O O O O O O O O B-COMMENTS_ADJ I-COMMENTS_ADJ|
+    1841|中行_7.4k|B-BANK I-BANK O O O O O O|7|8|B-BANK I-BANK O O O O O|
+    1856|招行_经典白100k|B-BANK I-BANK O B-PRODUCT I-PRODUCT I-PRODUCT O O O O O|10|11|B-BANK I-BANK O B-PRODUCT I-PRODUCT I-PRODUCT O O O O|
+    4593|中信好久不能调额了|B-BANK I-BANK B-COMMENTS_ADJ I-COMMENTS_ADJ B-COMMENTS_ADJ I-COMMENTS_ADJ O O O O O O O O O O O|9|17|B-BANK I-BANK B-COMMENTS_ADJ I-COMMENTS_ADJ B-COMMENTS_ADJ I-COMMENTS_ADJ O O O|
